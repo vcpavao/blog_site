@@ -1,9 +1,12 @@
-var express = require("express");
-var app = express();
-var methodOverride = require("method-override");
-var expressSanitizer = require("express-sanitizer");
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
+var express = require("express"),
+    app = express(),
+    methodOverride = require("method-override"),
+    expressSanitizer = require("express-sanitizer"),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose"),
+    Post = require("./models/post.js"),
+    Comment = require("./models/comment.js");
+    
 //App config
 mongoose.connect("mongodb://localhost/posts", {useNewUrlParser: true});
 app.set("view engine", "ejs");
@@ -12,21 +15,11 @@ app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 
-//Schema config
-var postSchema = new mongoose.Schema({
-   title: String,
-   image: String,
-   body: String,
-   created: {type: Date, default: Date.now}
-});
-
-var Post = mongoose.model("Post", postSchema);
-
 //RESTful routes
-
 app.get("/", function(req, res) {
    res.redirect("/posts");
 });
+
 //Index route
 app.get("/posts", function(req, res) {
    Post.find({}, function(err, posts) {
@@ -59,11 +52,11 @@ app.post("/posts", function(req, res) {
 
 //Show route
 app.get("/posts/:id", function(req, res) {
-   Post.findById(req.params.id, function(err, foundPost) {
+   Post.findById(req.params.id).populate("comments").exec(function(err, post) {
       if(err) {
          res.redirect("/posts");
       } else {
-         res.render("posts/show", {post: foundPost});
+         res.render("posts/show", {post: post});
       }
    });
 });
@@ -102,27 +95,27 @@ app.delete("/posts/:id", function(req, res) {
 });
 
 //-----COMMENT ROUTING
-
+//New route
 app.get("/posts/:id/comments/new", function(req, res) {
    Post.findById(req.params.id, function(err, foundPost) {
       if(err) {
-         res.redirect("/posts/:id");
+         console.log(err);
       } else {
          res.render("comments/new", {post: foundPost});
       }
    })
 });
-
+//Create route
 app.post("/posts/:id/comments", function(req, res) {
-   //Remove script tags
-   req.body.comment.body = req.sanitize(req.body.comment.body);
    Post.findById(req.params.id, function(err, post) {
       if(err) {
-         res.redirect("/posts/:id/comments/new");
+         res.redirect("/posts");
       } else {
          Comment.create(req.body.comment, function(err, comment) {
+            //Sanitize (remove script tags)
+            req.body.comment.text = req.sanitize(req.body.comment.text);
             if(err) {
-               res.render("posts/new");
+               console.log(err);
             } else {
                post.comments.push(comment);
                post.save();

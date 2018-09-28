@@ -5,10 +5,16 @@
     <img class="ui medium image" src="<%=post.image%>">
     <div class="content">
         <div class="description"><p><%-post.body%></p></div>
+        <a class="ui orange inverted button" href="/posts/<%=post._id%>/comments/new">New Comment</a> 
         <a class="ui yellow inverted button" href="/posts/<%=post._id%>/edit">Edit</a>
         <form id="delete-button" class="ui form" action="/posts/<%=post._id%>?_method=DELETE" method="POST">
             <button class="ui red inverted button">Delete</button>
          </form>
     </div>
 </div>
+
+<%post.comments.forEach(function(comment) {%>
+    <h5 class="ui header"><%=comment.author%></h5>
+    <div class = "description"><p><%-comment.text%></p></div>
+<%})%>
 <%include ../partials/footer%>

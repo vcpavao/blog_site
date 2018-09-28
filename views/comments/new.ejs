@@ -1,7 +1,7 @@
 <%include ../partials/header%>
 <div class="ui raised very padded text container segment" id="main-body">
     <div class="ui huge header">New Comment to <%=post.title%></div>
-    <form class="ui form" action="/posts<%=post._id%>/comments" method="POST">
+    <form class="ui form" action="/posts/<%=post._id%>/comments" method="POST">
         <div class="field"><label>Comment</label><textarea name="comment[text]"></textarea></div>
         <div class="field"><label>Author</label><input type="text" name="comment[author]" placeholder="author"></div>
         <input class="ui blue basic button" type="submit">
