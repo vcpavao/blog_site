@@ -1,5 +1,5 @@
 <%include ../partials/header%>
-<div class="ui main text container segment">
+<div class="ui raised very padded text container segment" id="main-body">
     <div class="ui huge header">New Comment to <%=post.title%></div>
     <form class="ui form" action="/posts<%=post._id%>/comments" method="POST">
         <div class="field"><label>Comment</label><textarea name="comment[text]"></textarea></div>

@@ -2,15 +2,15 @@
 
 <%posts.forEach(function(post){%>
     <div class="ui raised very padded text container segment" id="main-body">
-        <div class="content">
+        <div class="ui tiny header">
             <span><%=post.created.toLocaleDateString("en-US");%></span>
         </div>
         <h2 class="ui header"><%= post.title %></h2>
         <img class="ui medium image" src="<%=post.image%>">
         <div class="description">
-            <p><%=post.body.substring(0, 170)%>...</p>
+            <p><%=post.body.substring(0, 167)%>...</p>
         </div>
-        <a class="ui green inverted button" href="/blogs/<%=post._id%>">Read More</a>
+        <a class="ui green inverted button" href="/posts/<%=post._id%>">Read More</a>
     </div>
 <%})%>
 <%include ../partials/footer%>

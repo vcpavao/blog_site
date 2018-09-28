@@ -1,9 +1,8 @@
+body {
+    height: 100%;
+}
 i.icon {
     font-size: 2em;
-}
-
-.container.main {
-    
 }
 
 #delete-button {
@@ -12,4 +11,8 @@ i.icon {
 
 #main-body {
     margin-top: 8em;
+}
+
+#menu-items {
+    margin-right: 0;
 }

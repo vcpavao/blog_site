@@ -113,6 +113,26 @@ app.get("/posts/:id/comments/new", function(req, res) {
    })
 });
 
+app.post("/posts/:id/comments", function(req, res) {
+   //Remove script tags
+   req.body.comment.body = req.sanitize(req.body.comment.body);
+   Post.findById(req.params.id, function(err, post) {
+      if(err) {
+         res.redirect("/posts/:id/comments/new");
+      } else {
+         Comment.create(req.body.comment, function(err, comment) {
+            if(err) {
+               res.render("posts/new");
+            } else {
+               post.comments.push(comment);
+               post.save();
+               res.redirect("/posts/" + post._id);
+            }
+         })
+      }
+   })
+});
+
 app.listen(process.env.PORT, process.env.IP, function() {
    console.log("Server running");
 });

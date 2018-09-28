@@ -1,12 +1,12 @@
 <%include ../partials/header%>
 <div class="ui raised very padded text container segment" id="main-body">
+    <div class="ui tiny header"><span><%=post.created.toLocaleDateString("en-us")%></span></div>
     <div class="ui large header"><%= post.title%></div>
-    <div class="ui tiny header"><span><%=post.created.toDateString()%></span></div>
     <img class="ui medium image" src="<%=post.image%>">
     <div class="content">
         <div class="description"><p><%-post.body%></p></div>
-        <a class="ui yellow inverted button" href="/blogs/<%=post._id%>/edit">Edit</a>
-        <form id="delete-button" class="ui form" action="/blogs/<%=post._id%>?_method=DELETE" method="POST">
+        <a class="ui yellow inverted button" href="/posts/<%=post._id%>/edit">Edit</a>
+        <form id="delete-button" class="ui form" action="/posts/<%=post._id%>?_method=DELETE" method="POST">
             <button class="ui red inverted button">Delete</button>
          </form>
     </div>
