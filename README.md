@@ -1,2 +1,2 @@
-# blog_site
-Personal website for posting and commenting on new music, written with MEAN stack.
+# Victor's Personal Website
+Personal website for posting new music and allowing other users to comment, written with MEAN stack.
