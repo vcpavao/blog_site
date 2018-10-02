@@ -1,2 +1,2 @@
-# blog_site
-In-progress personal blogging website for current music, written with MEAN stack and the Semantic UI framework. The blog-posting feature makes use of RESTful routes.
+# Victor's Personal Website
+Personal website for posting new music and allowing other users to comment, written with MEAN stack.
