@@ -12,9 +12,29 @@
          </form>
     </div>
 </div>
-
-<%post.comments.forEach(function(comment) {%>
-    <h5 class="ui header"><%=comment.author%></h5>
-    <div class = "description"><p><%-comment.text%></p></div>
-<%})%>
+<div class="ui comments centered" id="comments">
+    <h3 class="ui dividing header">Comments</h3>
+    <%post.comments.forEach(function(comment) {%>
+        <div class="comment">
+            <div class="content">
+                <a class="author"><%=comment.author%></a>
+                <div class="metadata">
+                    <span class="date"><%=comment.created.toLocaleDateString("en-us")%></span>
+                </div>
+                <div class="text"><%-comment.text%></div>
+                <div class="actions">
+                    <a class="reply">Reply</a>
+                </div>
+            </div>
+        </div>
+    <%})%>
+    <form class="ui reply form">
+        <div class="field">
+            <textarea></textarea>
+        </div>
+        <div class="ui blue labeled submit icon button">
+            <i class="icon edit"></i> Add Reply
+        </div>
+    </form>
+</div>
 <%include ../partials/footer%>
