@@ -32,6 +32,11 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+//Middleware for passing user to all templates
+app.use(function(req, res, next) {
+   res.locals.currentUser = req.user;
+   next();
+})
 
 //RESTful routes
 app.get("/", function(req, res) {
@@ -53,7 +58,7 @@ app.get("/posts", function(req, res) {
          console.log(err);
       } else {
          //Render index with posts data coming from db
-         res.render("posts/index", {posts: posts});
+         res.render("posts/index", {posts: posts, currentUser: req.user});
       }
    })
 });

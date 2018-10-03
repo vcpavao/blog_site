@@ -11,7 +11,12 @@
                 <a href="/" class="item"><i class="home icon"></i>Home</a>
                 <a href="/about" class="item"><i class="info icon"></i>About</a>
                 <a href="/recs" class="item"><i class="music icon"></i>Recommendations</a>
-                <a href="/login" class="item"><i class="user icon"></i>Login/Register</a>
+                <% if(!currentUser) { %>
+                    <a href="/login" class="right aligned item"><i class="user circle inverted icon"></i>Login/Register</a>
+                <% } else { %>
+                    <a href="#" class="item"><i class="user inverted icon"></i><%=currentUser.username%></a>
+                    <a href="/logout" class="right aligned item"><i class="user times inverted icon"></i>Logout</a>
+                <% } %>
             </div>
         </div>
         

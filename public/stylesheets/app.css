@@ -1,6 +1,11 @@
+.ui.menu {
+    margin: 0;
+}
+
 body {
     padding-top: 100px;
 }
+
 
 p {
     padding-top: 25px;
@@ -15,12 +20,12 @@ i.icon {
     font-size: 2em;
 }
 
-#delete-button {
-    display: inline;
+.right-floated {
+    float: right;
 }
 
-#menu-items {
-    margin-right: 0;
+#delete-button {
+    display: inline;
 }
 
 #comments {
