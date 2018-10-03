@@ -38,6 +38,14 @@ app.get("/", function(req, res) {
    res.redirect("/posts");
 });
 
+app.get("/about", function(req, res) {
+   res.render("about");
+});
+
+app.get("/recs", function(req, res) {
+   res.render("recs");
+});
+
 //Index route
 app.get("/posts", function(req, res) {
    Post.find({}, function(err, posts) {
@@ -51,7 +59,7 @@ app.get("/posts", function(req, res) {
 });
 
 //New route
-app.get("/posts/new", function(req, res) {
+app.get("/posts/new", isLoggedIn, function(req, res) {
    res.render("posts/new");
 });
 
@@ -114,7 +122,7 @@ app.delete("/posts/:id", function(req, res) {
 
 //-----COMMENT ROUTING
 //New route
-app.get("/posts/:id/comments/new", function(req, res) {
+app.get("/posts/:id/comments/new", isLoggedIn, function(req, res) {
    Post.findById(req.params.id, function(err, foundPost) {
       if(err) {
          console.log(err);
@@ -145,6 +153,10 @@ app.post("/posts/:id/comments", function(req, res) {
 });
 
 //Auth routes
+app.get("/members", isLoggedIn, function(req, res) {
+    res.render("members");
+});
+
 app.get("/register", function(req, res) {
    res.render("register");
 });
@@ -172,6 +184,18 @@ app.post("/login", passport.authenticate("local", {
 }), function(req, res) {
    //Empty for now
 });
+
+app.get("/logout", function(req, res) {
+   req.logout();
+   res.redirect("/");
+});
+
+function isLoggedIn(req, res, next) {
+   if(req.isAuthenticated()) {
+      return next();
+   }
+   res.redirect("/login");
+}
 
 app.listen(process.env.PORT, process.env.IP, function() {
    console.log("Server running");

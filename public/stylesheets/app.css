@@ -1,10 +1,14 @@
 body {
-    height: 90%;
+    padding-top: 100px;
 }
 
 p {
     padding-top: 25px;
     padding-bottom: 25px;
+}
+
+.nonbox {
+    padding: 1.8em;
 }
 
 i.icon {
@@ -13,10 +17,6 @@ i.icon {
 
 #delete-button {
     display: inline;
-}
-
-#main-body {
-    margin-top: 8em;
 }
 
 #menu-items {
