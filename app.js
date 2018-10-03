@@ -1,19 +1,37 @@
+//Import packages
 var express = require("express"),
-    app = express(),
     methodOverride = require("method-override"),
     expressSanitizer = require("express-sanitizer"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    Post = require("./models/post.js"),
-    Comment = require("./models/comment.js");
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    passportLocalMongoose = require("passport-local-mongoose"),
     
-//App config
+    Post = require("./models/post"),
+    Comment = require("./models/comment"),
+    User = require("./models/user");
+    
+//App configuration
 mongoose.connect("mongodb://localhost/posts", {useNewUrlParser: true});
+var app = express();
+
+app.use(require("express-session")({
+   secret: "my secret option",
+   resave: false,
+   saveUninitialized: false
+}));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //RESTful routes
 app.get("/", function(req, res) {
@@ -124,6 +142,35 @@ app.post("/posts/:id/comments", function(req, res) {
          })
       }
    })
+});
+
+//Auth routes
+app.get("/register", function(req, res) {
+   res.render("register");
+});
+
+app.post("/register", function(req, res) {
+   //TODO manually check credentials before creating User object in database
+   User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
+      if(err) {
+         console.log(err);
+         res.render("register");
+      }
+      passport.authenticate("local")(req, res, function(){
+         res.redirect("/members");
+      });
+   });
+});
+
+app.get("/login", function(req, res) {
+   res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", {
+      successRedirect: "/members",
+      failureRedirect: "/login"
+}), function(req, res) {
+   //Empty for now
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
