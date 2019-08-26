@@ -1,2 +1,2 @@
-# Victor's Personal Website
-Personal website for posting new music and allowing other users to comment, written with MEAN stack.
+# New England Quiz Bowl Website
+Web application that will provide information for the New England Quiz Bowl community
